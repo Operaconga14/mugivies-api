@@ -32,7 +32,11 @@ const Gadget = sequelize.define('Gadget', {
         type: DataTypes.STRING,
     },
     postedBy: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        references: {
+            model: 'Users',  // References the Users table
+            key: 'username'  // Links to the username field in User
+        }
     },
     createdAt: {
         allowNull: false,
@@ -45,10 +49,14 @@ const Gadget = sequelize.define('Gadget', {
 }, {
     timestamps: false,
     tableName: 'Gadgets',
-    paranoid: true
-})
+    paranoid: false
+});
 
-Gadget.belongsTo(User, { foreignKey: 'postedBy' })
-User.hasMany(Gadget, { foreignKey: 'postedBy' })
+Gadget.belongsTo(User, {
+    foreignKey: 'postedBy',
+    onDelete: 'CASCADE',
+    targetKey: 'username'
+});
+User.hasMany(Gadget, { foreignKey: 'postedBy', onDelete: 'CASCADE', sourceKey: 'username' });
 
-module.exports = Gadget
+module.exports = Gadget;

@@ -1,31 +1,31 @@
 const { dotenv, multer, cloudinary } = require("./node_packages");
-dotenv
+dotenv;
 
-const defaultPicture = process.env.DEFAULT_IMG
-const storage = multer.memoryStorage()
-const upload = multer({ storage })
-const multipart_form = multer()
+const defaultPicture = process.env.DEFAULT_IMG;
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+const multipart_form = multer();
 
 const cors_option = {
     allowed_origin: ['https://mugivies.vercel.app', 'http://localhost:4200']
-}
+};
 
 const cors_options = {
     origin: (origin, callback) => {
         if (cors_option.allowed_origin.indexOf(origin) !== -1 || !origin) {
-            callback(null, true)
+            callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'))
+            callback(new Error('Not allowed by CORS'));
         }
     },
     credentials: true
-}
+};
 
 // api url and port config option
 const api_url = {
     url: process.env.API_URL,
     port: process.env.PORT
-}
+};
 
 // database cloud config
 const cloud_db_options = {
@@ -35,7 +35,7 @@ const cloud_db_options = {
     db_host: process.env.DB_HOST,
     db_port: process.env.DB_PORT,
     db_connection_limit: process.env.DB_CONNECTION_LIMIT
-}
+};
 
 // localhost
 const local_db_options = {
@@ -44,12 +44,12 @@ const local_db_options = {
     db_pass: process.env.LOCAL_PASSWORD,
     db_host: process.env.LOCAL_HOST,
     db_connection_limit: 5
-}
+};
 
 // jwt authentication config option
 const auth_jwt = {
     secret: process.env.AUTH_SECRET,
-}
+};
 
 //  cloudinary config
 cloudinary.config({
@@ -58,7 +58,7 @@ cloudinary.config({
     api_secret: process.env.CLOUD_SECRET,
     cloud_name: process.env.CLOUD_NAME,
     // sign_url: true
-})
+});
 
 module.exports = {
     defaultPicture,
@@ -71,4 +71,4 @@ module.exports = {
     cloud_db_options,
     auth_jwt,
     cloudinary
-}
+};

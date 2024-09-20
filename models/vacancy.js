@@ -35,7 +35,11 @@ const Vacancy = sequelize.define('Vacancy', {
         type: DataTypes.DATE
     },
     postedBy: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        references: {
+            model: 'Users',  // References the Users table
+            key: 'username'  // Links to the username field in User
+        }
     },
     createdAt: {
         allowNull: false,
@@ -48,11 +52,17 @@ const Vacancy = sequelize.define('Vacancy', {
 }, {
     timestamps: false,
     tableName: 'Vacancies',
-    paranoid: true
-})
+    paranoid: false
+});
+
+// sequelize.sync({ alter: true });
 
 
-Vacancy.belongsTo(User, { foreignKey: 'postedBy' })
-User.hasMany(Vacancy, { foreignKey: 'postedBy' })
+Vacancy.belongsTo(User, {
+    foreignKey: 'postedBy',
+    onDelete: 'CASCADE',
+    targetKey: 'username'
+});
+User.hasMany(Vacancy, { foreignKey: 'postedBy', onDelete: 'CASCADE', sourceKey: 'username' });
 
-module.exports = Vacancy
+module.exports = Vacancy;

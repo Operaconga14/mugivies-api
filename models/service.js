@@ -28,7 +28,10 @@ const Service = sequelize.define('Service', {
         type: DataTypes.STRING,
     },
     postedBy: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING, references: {
+            model: 'Users',  // References the Users table
+            key: 'username'  // Links to the username field in User
+        }
     },
     createdAt: {
         allowNull: false,
@@ -38,9 +41,17 @@ const Service = sequelize.define('Service', {
         allowNull: false,
         type: DataTypes.DATE,
     }
-})
+}, {
+    timestamps: false,
+    tableName: 'Services',
+    paranoid: false
+});
 
-Service.belongsTo(User, { foreignKey: 'postedBy' })
-User.hasMany(Service, { foreignKey: 'postedBy' })
+Service.belongsTo(User, {
+    foreignKey: 'postedBy',
+    onDelete: 'CASCADE',
+    targetKey: 'username'
+});
+User.hasMany(Service, { foreignKey: 'postedBy', onDelete: 'CASCADE', sourceKey: 'username' });
 
-module.exports = Service
+module.exports = Service;

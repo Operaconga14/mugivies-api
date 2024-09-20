@@ -49,16 +49,24 @@ const Gig = sequelize.define('Gig', {
         type: DataTypes.DATE,
     },
     postedBy: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        references: {
+            model: 'Users',  // References the Users table
+            key: 'username'  // Links to the username field in User
+        }
     }
 }, {
     timestamps: false,
     tableName: 'Gigs',
-    paranoid: true
-})
+    paranoid: false
+});
 
 
-Gig.belongsTo(User, { foreignKey: 'postedBy' })
-User.hasMany(Gig, { foreignKey: 'postedBy' })
+Gig.belongsTo(User, {
+    foreignKey: 'postedBy',
+    onDelete: 'CASCADE',
+    targetKey: 'username'
+});
+User.hasMany(Gig, { foreignKey: 'postedBy', onDelete: 'CASCADE', sourceKey: 'username' });
 
-module.exports = Gig
+module.exports = Gig;

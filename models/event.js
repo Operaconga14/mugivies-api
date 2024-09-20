@@ -36,7 +36,11 @@ const Event = sequelize.define('Event', {
         type: DataTypes.STRING,
     },
     postedBy: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        references: {
+            model: 'Users',  // References the Users table
+            key: 'username'  // Links to the username field in User
+        }
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -49,10 +53,18 @@ const Event = sequelize.define('Event', {
 }, {
     timestamps: false,
     tableName: 'Events',
-    paranoid: true
-})
+    paranoid: false
+});
 
-Event.belongsTo(User, { foreignKey: 'postedBy' })
-User.hasMany(Event, { foreignKey: 'postedBy' })
 
-module.exports = Event
+Event.belongsTo(User, {
+    foreignKey: 'postedBy',
+    onDelete: 'CASCADE',
+    targetKey: 'username'
+});
+User.hasMany(Event, { foreignKey: 'postedBy', onDelete: 'CASCADE', sourceKey: 'username' });
+
+// sequelize.sync({ alter: true });
+
+
+module.exports = Event;

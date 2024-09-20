@@ -52,16 +52,24 @@ const Post = sequelize.define('Post', {
         type: DataTypes.DATE,
     },
     postedBy: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        references: {
+            model: 'Users',  // References the Users table
+            key: 'username'  // Links to the username field in User
+        }
     }
 },
     {
         timestamps: false,
         tableName: 'Posts',
-        paranoid: true
-    })
+        paranoid: false
+    });
 
-Post.belongsTo(User, { foreignKey: 'postedBy' })
-User.hasMany(Post, { foreignKey: 'postedBy' })
+Post.belongsTo(User, {
+    foreignKey: 'postedBy',
+    onDelete: 'CASCADE',
+    targetKey: 'username'
+});
+User.hasMany(Post, { foreignKey: 'postedBy', onDelete: 'CASCADE', sourceKey: 'username' });
 
-module.exports = Post
+module.exports = Post;
