@@ -7,7 +7,7 @@ const upload = multer({ storage: storage });
 const multipart_form = multer();
 
 const cors_option = {
-    allowed_origin: ['https://mugivies.vercel.app', 'http://localhost:4200', 'https://www.mugivies.xyz/', 'https://mugivies.xyz/']
+    allowed_origin: ['https://mugivies.vercel.app', 'http://localhost:4200', 'https://www.mugivies.xyz', 'https://mugivies.xyz']
 };
 
 const cors_options = {
