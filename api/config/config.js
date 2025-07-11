@@ -7,7 +7,7 @@ const upload = multer({ storage: storage });
 const multipart_form = multer();
 
 const cors_option = {
-    allowed_origin: ['https://mugivies.vercel.app', 'http://localhost:4200', 'https://www.mugivies.xyz', 'https://mugivies.xyz']
+    allowed_origin: ["https://mugivies.netlify.app", "http://localhost:4200"],
 };
 
 const cors_options = {
@@ -15,16 +15,16 @@ const cors_options = {
         if (cors_option.allowed_origin.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            callback(new Error("Not allowed by CORS"));
         }
     },
-    credentials: true
+    credentials: true,
 };
 
 // api url and port config option
 const api_url = {
     url: process.env.API_URL,
-    port: process.env.PORT
+    port: process.env.PORT,
 };
 
 // database cloud config
@@ -34,7 +34,7 @@ const cloud_db_options = {
     db_pass: process.env.DB_PASSWORD,
     db_host: process.env.DB_HOST,
     db_port: process.env.DB_PORT,
-    db_connection_limit: process.env.DB_CONNECTION_LIMIT
+    db_connection_limit: process.env.DB_CONNECTION_LIMIT,
 };
 
 // localhost
@@ -43,7 +43,7 @@ const local_db_options = {
     db_user: process.env.LOCAL_USER,
     db_pass: process.env.LOCAL_PASSWORD,
     db_host: process.env.LOCAL_HOST,
-    db_connection_limit: 5
+    db_connection_limit: 5,
 };
 
 // jwt authentication config option
@@ -70,5 +70,5 @@ module.exports = {
     local_db_options,
     cloud_db_options,
     auth_jwt,
-    cloudinary
+    cloudinary,
 };
